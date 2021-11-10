@@ -1,0 +1,11 @@
+[package]
+name = "dwk1"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = "0.5.0-rc.1"
+uuid = { version = "0.8.2", features = ["v4"] }
+time = { version = "0.3.4", features = ["formatting"] }

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rocket-server-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rocket-server
+  template:
+    metadata:
+      labels:
+        app: rocket-server
+    spec:
+      volumes:
+        - name: image-cache
+          emptyDir: {}
+      containers:
+        - name: rocket-server
+          image: jvaalto/dwk2:latest
+          volumeMounts:
+            - name: image-cache
+              mountPath: /app/images
+          ports:
+            - containerPort: 8000

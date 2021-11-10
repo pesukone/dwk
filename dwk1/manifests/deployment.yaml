@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hashgenerator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hashgenerator
+  template:
+    metadata:
+      labels:
+        app: hashgenerator
+    spec:
+      volumes:
+        - name: shared-files
+          persistentVolumeClaim:
+            claimName: pingpong-log-claim
+        - name: temp-file
+          emptyDir: {}
+      containers:
+        - name: hashwriter
+          image: jvaalto/dwk4:latest
+          volumeMounts:
+            - name: temp-file
+              mountPath: /app/files
+        - name: hashreader
+          image: jvaalto/dwk1:latest
+          volumeMounts:
+            - name: temp-file
+              mountPath: /app/files
+            - name: shared-files
+              mountPath: /app/persistent-files

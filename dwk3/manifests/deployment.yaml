@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      volumes:
+        - name: shared-files
+          persistentVolumeClaim:
+            claimName: pingpong-log-claim
+      containers:
+        - name: pingpong
+          image: jvaalto/dwk3:latest
+          volumeMounts:
+            - name: shared-files
+              mountPath: /app/persistent-files
+          ports:
+            - containerPort: 8000
